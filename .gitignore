@@ -1,0 +1,8 @@
+# Project
+.env
+.cache
+
+# Docker
+data
+
+
