@@ -1,0 +1,24 @@
+services:
+  server:
+    build:
+      context: .
+      dockerfile: config/Dockerfile
+    image: gotic-tac:latest
+    ports:
+      - "8080:8080"
+    environment:
+      GOTIC_ADDR: ":8080"
+      GOTIC_DB_PATH: "/data/gotic.db"
+      GOTIC_JWT_SECRET: "${GOTIC_JWT_SECRET:-dev-secret-change-me}"
+    volumes:
+      - gotic-data:/data
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "http://127.0.0.1:8080/healthz"]
+      interval: 10s
+      timeout: 3s
+      retries: 3
+      start_period: 5s
+    restart: unless-stopped
+
+volumes:
+  gotic-data:
