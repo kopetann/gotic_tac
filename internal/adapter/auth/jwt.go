@@ -9,9 +9,9 @@ import (
 )
 
 type AuthProvider struct {
-	secret 	   []byte
-	encAlg     jwt.SigningMethod
-	ttl 	   time.Duration
+	secret []byte
+	encAlg jwt.SigningMethod
+	ttl    time.Duration
 }
 
 func NewAuthProvider(privateKey string, ttl time.Duration) (*AuthProvider, error) {
@@ -21,8 +21,8 @@ func NewAuthProvider(privateKey string, ttl time.Duration) (*AuthProvider, error
 
 	return &AuthProvider{
 		secret: []byte(privateKey),
-		encAlg:     jwt.SigningMethodHS256,
-		ttl: ttl,
+		encAlg: jwt.SigningMethodHS256,
+		ttl:    ttl,
 	}, nil
 }
 
@@ -30,8 +30,8 @@ func (a AuthProvider) Issue(id domain.PlayerID) (string, error) {
 	now := time.Now()
 
 	tok := jwt.NewWithClaims(a.encAlg, jwt.RegisteredClaims{
-		Subject: string(id),
-		IssuedAt: jwt.NewNumericDate(now),
+		Subject:   string(id),
+		IssuedAt:  jwt.NewNumericDate(now),
 		ExpiresAt: jwt.NewNumericDate(now.Add(a.ttl)),
 	})
 
