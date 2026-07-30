@@ -1,0 +1,16 @@
+# Git
+.git
+.gitignore
+
+# Project-specific
+.env
+.cache
+
+# Docker
+data
+Dockerfile
+docker-compose.yml
+
+# Other
+*.md
+*.pdf
