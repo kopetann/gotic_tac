@@ -9,8 +9,8 @@ services:
     environment:
       ADDR: ":8080"
       DB_PATH: "/data/gotic.db"
-      JWT_SECRET: "${GOTIC_JWT_SECRET:-dev-secret-change-me-before-deploying}"
-      TOKEN_TTL: "${GOTIC_TOKEN_TTL:-24h}"
+      JWT_SECRET: "${JWT_SECRET:-dev-secret-change-me-before-deploying}"
+      TOKEN_TTL: "${TOKEN_TTL:-24h}"
     volumes:
       - gotic-data:/data
     healthcheck:
