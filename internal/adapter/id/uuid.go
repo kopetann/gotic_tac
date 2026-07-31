@@ -2,7 +2,7 @@ package id
 
 import "github.com/google/uuid"
 
-type UUID struct {}
+type UUID struct{}
 
 func NewUUID() *UUID {
 	return &UUID{}
