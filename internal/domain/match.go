@@ -67,7 +67,7 @@ func NewMatch(id MatchID, x, o PlayerID) (*Match, error) {
 	if x == o {
 		return nil, ErrSamePlayer
 	}
-	
+
 	return &Match{
 		id:      id,
 		players: map[Mark]PlayerID{X: x, O: o},
@@ -126,7 +126,7 @@ func (m *Match) ApplyMove(p PlayerID, cell int) error {
 // settle records the result if the move just played ended the match, and
 // otherwise passes the turn.
 func (m *Match) settle(justPlayed Mark) {
-	winner := m.board.IsWinningCombination()
+	winner := m.board.Winner()
 	switch {
 	case winner == X:
 		m.status = StatusXWon
