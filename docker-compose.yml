@@ -7,9 +7,10 @@ services:
     ports:
       - "8080:8080"
     environment:
-      GOTIC_ADDR: ":8080"
-      GOTIC_DB_PATH: "/data/gotic.db"
-      GOTIC_JWT_SECRET: "${GOTIC_JWT_SECRET:-dev-secret-change-me}"
+      ADDR: ":8080"
+      DB_PATH: "/data/gotic.db"
+      JWT_SECRET: "${GOTIC_JWT_SECRET:-dev-secret-change-me-before-deploying}"
+      TOKEN_TTL: "${GOTIC_TOKEN_TTL:-24h}"
     volumes:
       - gotic-data:/data
     healthcheck:
