@@ -1,7 +1,7 @@
 package domain
 
 const (
-	Side = 3
+	Side      = 3
 	BoardSize = Side * Side
 )
 
@@ -17,9 +17,9 @@ func (b Board) Cell(i int) Mark {
 }
 
 // winnerInColumns scans columns for matches and returns Empty, X or O
-func (b Board) winnerInColumns() Mark{
+func (b Board) winnerInColumns() Mark {
 	for i := range Side {
-		mark, mark1, mark2 := b[i], b[i + Side], b[Side * 2 + i]
+		mark, mark1, mark2 := b[i], b[i+Side], b[Side*2+i]
 		if mark == Empty {
 			continue
 		}
@@ -33,7 +33,7 @@ func (b Board) winnerInColumns() Mark{
 }
 
 // winnerInDiagonals scans diagonals for matches and returns Empty, X or O
-func (b Board) winnerInDiagonals() Mark{
+func (b Board) winnerInDiagonals() Mark {
 	checkMarks := func(mark, mark1, mark2 Mark) Mark {
 		if mark == Empty {
 			return Empty
@@ -47,18 +47,18 @@ func (b Board) winnerInDiagonals() Mark{
 	}
 
 	// From left-to-right
-	if m := checkMarks(b[0], b[Side + 1], b[Side * 2 + 2]); m != Empty {
+	if m := checkMarks(b[0], b[Side+1], b[Side*2+2]); m != Empty {
 		return m
 	}
 
 	// From right-to-left
-	return checkMarks(b[Side - 1], b[Side + 1], b[Side * 2])
+	return checkMarks(b[Side-1], b[Side+1], b[Side*2])
 }
 
 // winnerInRows scans rows for matches and returns Empty, X or O
 func (b Board) winnerInRows() Mark {
-	for i := 0; i < len(b); i+= Side	{
-		mark, mark1, mark2 := b[i], b[i + 1], b[i + 2]
+	for i := 0; i < len(b); i += Side {
+		mark, mark1, mark2 := b[i], b[i+1], b[i+2]
 		if mark == Empty {
 			continue
 		}
@@ -68,17 +68,16 @@ func (b Board) winnerInRows() Mark {
 		}
 	}
 
-
 	return Empty
 }
 
 // Winner returns XMark or OMark if there is a row match, Empty otherwise
-func (b Board) Winner() (Mark) {
-	if m := b.winnerInColumns(); m !=Empty {
+func (b Board) Winner() Mark {
+	if m := b.winnerInColumns(); m != Empty {
 		return m
 	}
 
-	if m := b.winnerInRows(); m !=Empty {
+	if m := b.winnerInRows(); m != Empty {
 		return m
 	}
 

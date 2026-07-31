@@ -85,19 +85,22 @@ func (game *Games) Start(ctx context.Context, x, o domain.PlayerID) error {
 	return nil
 }
 
-func (g *Games) Move(ctx context.Context, p domain.PlayerID, cell int) error {
+// Move returns the state the mover should now see. A finishing move drops the
+// match, so a caller that asked for it afterwards would get ErrNoActiveMatch
+// and never learn how the game ended.
+func (g *Games) Move(ctx context.Context, p domain.PlayerID, cell int) (MatchState, error) {
 	g.mu.Lock()
 	am, ok := g.lookup(p)
 	if !ok {
 		g.mu.Unlock()
-		return ErrNoActiveMatch
+		return MatchState{}, ErrNoActiveMatch
 	}
 
 	// The domain error is returned unchanged: the transport maps its Code, so
 	// wrapping or flattening it here would break the protocol.
 	if err := am.match.ApplyMove(p, cell); err != nil {
 		g.mu.Unlock()
-		return err
+		return MatchState{}, err
 	}
 
 	evType := EventStateChanged
@@ -109,6 +112,7 @@ func (g *Games) Move(ctx context.Context, p domain.PlayerID, cell int) error {
 	}
 
 	rec, evs := am.record(), am.events(evType)
+	state := am.stateFor(p)
 	g.mu.Unlock()
 
 	g.persist(ctx, rec)
@@ -117,7 +121,7 @@ func (g *Games) Move(ctx context.Context, p domain.PlayerID, cell int) error {
 	}
 
 	g.dispatch(evs)
-	return nil
+	return state, nil
 }
 
 func (g *Games) State(p domain.PlayerID) (MatchState, error) {
@@ -149,8 +153,10 @@ func (g *Games) Abandon(p domain.PlayerID) {
 		return
 	}
 
+	// The state is snapshotted for the player who stays: without it they get an
+	// event with an empty board and cannot see how the match was left.
 	opponent := am.match.Opponent(p)
-	ev := Event{Type: EventOpponentLeft, MatchID: am.match.ID()}
+	ev := Event{Type: EventOpponentLeft, MatchID: am.match.ID(), State: am.stateFor(opponent)}
 	g.forget(am)
 	g.mu.Unlock()
 
