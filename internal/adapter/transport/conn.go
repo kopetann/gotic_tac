@@ -173,7 +173,7 @@ func (c *client) dispatch(ctx context.Context, cmd command) (frame, error) {
 		c.deps.Matchmaking.Leave(c.id)
 
 	case cmdMove:
-		if err := c.deps.Games.Move(ctx, c.id, cmd.Cell); err != nil {
+		if _, err := c.deps.Games.Move(ctx, c.id, cmd.Cell); err != nil {
 			return frame{}, err
 		}
 
