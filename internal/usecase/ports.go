@@ -17,7 +17,7 @@ type PlayerRecorder interface {
 }
 
 // Top returns players ordered by wins descending, then losses ascending.
-// Ordering is part of the contract so the ranking shown to users does not 
+// Ordering is part of the contract so the ranking shown to users does not
 // depend on which implementation is wired in.
 type StandingsReader interface {
 	Top(ctx context.Context, limit int) ([]*domain.Player, error)

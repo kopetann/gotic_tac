@@ -24,8 +24,8 @@ const (
 var upgrader = websocket.Upgrader{
 	ReadBufferSize:  1024,
 	WriteBufferSize: 1024,
-	CheckOrigin:     func(r *http.Request) bool {
-		return true 
+	CheckOrigin: func(r *http.Request) bool {
+		return true
 	},
 }
 
@@ -202,6 +202,6 @@ func (c *client) dispatch(ctx context.Context, cmd command) (frame, error) {
 
 	return frame{
 		Type: frameAck,
-		Of: cmd.Type,
+		Of:   cmd.Type,
 	}, nil
 }
