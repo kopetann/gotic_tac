@@ -261,7 +261,7 @@ may go in one.
 
 ### Lifetime
 
-Tokens live 24 hours by default (`GOTIC_TOKEN_TTL`).
+Tokens live 24 hours by default (`TOKEN_TTL`).
 
 Matches last minutes, so the token's real job is to survive a play session
 *including a reconnect after a dropped socket*. A short TTL without a refresh
