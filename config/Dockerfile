@@ -23,8 +23,8 @@ COPY --from=build /out/server /usr/local/bin/server
 
 VOLUME /data
 
-ENV GOTIC_ADDR=:8080 \
-	GOTIC_DB_PATH=/data/gotic.db
+ENV ADDR=:8080 \
+	DB_PATH=/data/gotic.db
 
 EXPOSE 8080
 USER gotic

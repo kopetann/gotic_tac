@@ -52,7 +52,7 @@ func loadConfig(logger *slog.Logger) (*config, error) {
 		ttl, err := time.ParseDuration(rawTTL)
 		if err != nil {
 			logger.Warn(err.Error())
-			return nil, fmt.Errorf("GOTIC_TOKEN_TTL should be a duration like 24h or 30m")
+			return nil, fmt.Errorf("TOKEN_TTL should be a duration like 24h or 30m")
 		}
 
 		conf.tokenTTL = ttl
