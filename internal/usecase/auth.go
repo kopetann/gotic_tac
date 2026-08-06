@@ -7,7 +7,7 @@ import (
 	"github.com/kopetann/gotic_tac/internal/domain"
 )
 
-// MinPasswordLength lives here rather than in the domain because the domain
+// MinPasswordLength and MaxPasswordLength live here rather than in the domain because the domain
 // never sees a plaintext password, only the hash of one.
 const (
 	MinPasswordLength = 8
