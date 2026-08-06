@@ -16,7 +16,7 @@ type AuthProvider struct {
 
 func NewAuthProvider(privateKey string, ttl time.Duration) (*AuthProvider, error) {
 	if privateKey == "" {
-		return nil, fmt.Errorf("Private key could not be empty")
+		return nil, fmt.Errorf("private key could not be empty")
 	}
 
 	return &AuthProvider{
@@ -41,7 +41,7 @@ func (a AuthProvider) Issue(id domain.PlayerID) (string, error) {
 func (a AuthProvider) Verify(token string) (domain.PlayerID, error) {
 	tok, err := jwt.Parse(token, func(t *jwt.Token) (any, error) {
 		if _, ok := t.Method.(*jwt.SigningMethodHMAC); !ok {
-			return nil, fmt.Errorf("Incorrect signing alg: %s", t.Method)
+			return nil, fmt.Errorf("incorrect signing alg: %s", t.Method)
 		}
 
 		sub, err := t.Claims.GetSubject()
@@ -50,7 +50,7 @@ func (a AuthProvider) Verify(token string) (domain.PlayerID, error) {
 		}
 
 		if sub == "" {
-			return nil, fmt.Errorf("Subject could not be empty")
+			return nil, fmt.Errorf("subject could not be empty")
 
 		}
 
@@ -71,7 +71,7 @@ func (a AuthProvider) Verify(token string) (domain.PlayerID, error) {
 	}
 
 	if userId == "" {
-		return "", fmt.Errorf("Incorrect user_id")
+		return "", fmt.Errorf("incorrect user_id")
 	}
 
 	return domain.PlayerID(userId), nil
