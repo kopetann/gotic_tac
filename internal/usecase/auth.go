@@ -7,9 +7,12 @@ import (
 	"github.com/kopetann/gotic_tac/internal/domain"
 )
 
-// MinPasswordLength lives here rather than in the domain because the domain
+// MinPasswordLength and MaxPasswordLength live here rather than in the domain because the domain
 // never sees a plaintext password, only the hash of one.
-const MinPasswordLength = 8
+const (
+	MinPasswordLength = 8
+	MaxPasswordLength = 72
+)
 
 type Auth struct {
 	players PlayerRegistry
@@ -30,6 +33,10 @@ func (a *Auth) Register(ctx context.Context, name, password string) (string, err
 
 	if len(password) < MinPasswordLength {
 		return "", ErrPasswordTooShort
+	}
+
+	if len(password) > MaxPasswordLength {
+        return "", ErrPasswordTooLong
 	}
 
 	// Three outcomes, not two: found means taken, not-found means free, and any
